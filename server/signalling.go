@@ -2,9 +2,10 @@ package server
 
 import (
 	"encoding/json"
-	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/websocket"
 )
 
 // AllRooms is the global hashmap for the server
@@ -13,14 +14,14 @@ var AllRooms RoomMap
 // CreateRoomRequestHandler Create a Room and return roomID
 func CreateRoomRequestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	roomID := AllRooms.CreateRoom()
+	//roomID := AllRooms.CreateRoom()
 
 	type resp struct {
 		RoomID string `json:"room_id"`
 	}
 
 	log.Println(AllRooms.Map)
-	json.NewEncoder(w).Encode(resp{RoomID: roomID})
+	json.NewEncoder(w).Encode(resp{RoomID: "s57X8YIg"})
 }
 
 var upgrader = websocket.Upgrader{
@@ -32,17 +33,17 @@ var upgrader = websocket.Upgrader{
 type broadcastMsg struct {
 	Message map[string]interface{}
 	RoomID  string
-	Client    *websocket.Conn
+	Client  *websocket.Conn
 }
 
 var broadcast = make(chan broadcastMsg)
 
 func broadcaster() {
 	for {
-		msg := <- broadcast
+		msg := <-broadcast
 
 		for _, client := range AllRooms.Map[msg.RoomID] {
-			if(client.Conn != msg.Client) {
+			if client.Conn != msg.Client {
 				err := client.Conn.WriteJSON(msg.Message)
 
 				if err != nil {
@@ -53,7 +54,6 @@ func broadcaster() {
 		}
 	}
 }
-
 
 // JoinRoomRequestHandler will join the client in a particular room
 func JoinRoomRequestHandler(w http.ResponseWriter, r *http.Request) {
