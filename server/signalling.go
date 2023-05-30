@@ -57,19 +57,19 @@ func broadcaster() {
 
 // JoinRoomRequestHandler will join the client in a particular room
 func JoinRoomRequestHandler(w http.ResponseWriter, r *http.Request) {
-	roomID, ok := r.URL.Query()["roomID"]
+	//roomID, ok := r.URL.Query()["roomID"]
 
-	if !ok {
-		log.Println("roomID missing in URL Parameters")
-		return
-	}
+	// if !ok {
+	// 	log.Println("roomID missing in URL Parameters")
+	// 	return
+	// }
 
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal("Web Socket Upgrade Error", err)
 	}
 
-	AllRooms.InsertIntoRoom(roomID[0], false, ws)
+	AllRooms.InsertIntoRoom("s57X8YIg", false, ws)
 
 	go broadcaster()
 
