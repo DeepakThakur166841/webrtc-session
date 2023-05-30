@@ -57,7 +57,7 @@ func broadcaster() {
 
 // JoinRoomRequestHandler will join the client in a particular room
 func JoinRoomRequestHandler(w http.ResponseWriter, r *http.Request) {
-	//roomID, ok := r.URL.Query()["roomID"]
+	// roomID, ok := r.URL.Query()["roomID"]
 
 	// if !ok {
 	// 	log.Println("roomID missing in URL Parameters")
@@ -82,7 +82,7 @@ func JoinRoomRequestHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		msg.Client = ws
-		msg.RoomID = roomID[0]
+		msg.RoomID = "s57X8YIg"
 
 		log.Println(msg.Message)
 
