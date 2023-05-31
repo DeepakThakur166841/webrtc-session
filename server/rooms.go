@@ -1,11 +1,12 @@
 package server
 
 import (
-	"github.com/gorilla/websocket"
 	"log"
-	"sync"
 	"math/rand"
+	"sync"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 // Participant describes a single entity in the hashmap
@@ -17,7 +18,7 @@ type Participant struct {
 // RoomMap is the main hashmap [roomID string] -> [[]Participant]
 type RoomMap struct {
 	Mutex sync.RWMutex
-	Map map[string][]Participant
+	Map   map[string][]Participant
 }
 
 // Init initialises the RoomMap struct
@@ -52,7 +53,7 @@ func (r *RoomMap) CreateRoom() string {
 	return roomID
 }
 
-// InsertIntoRoom will create a participant and add it in the hashmap 
+// InsertIntoRoom will create a participant and add it in the hashmap
 func (r *RoomMap) InsertIntoRoom(roomID string, host bool, conn *websocket.Conn) {
 	r.Mutex.Lock()
 	defer r.Mutex.Unlock()
@@ -60,7 +61,7 @@ func (r *RoomMap) InsertIntoRoom(roomID string, host bool, conn *websocket.Conn)
 	p := Participant{host, conn}
 
 	log.Println("Inserting into Room with RoomID: ", roomID)
-	r.Map[roomID] = append(r.Map[roomID], p);
+	r.Map[roomID] = append(r.Map[roomID], p)
 }
 
 // DeleteRoom deletes the room with the roomID
